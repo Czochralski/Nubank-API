@@ -1,0 +1,11 @@
+create table cliente(
+id uuid not null primary key,
+nome varchar(100) not null
+);
+
+create table contato(
+id uuid not null primary key,
+email varchar(100) not null,
+telefone varchar(20) not null,
+id_cliente uuid not null references cliente(id)
+);
