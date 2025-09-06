@@ -1,0 +1,33 @@
+Desafio
+
+Crie uma API REST para gerenciar clientes e seus respectivos contatos. Cada cliente poderá ter um ou mais contatos vinculados.
+
+
+Requisitos Técnicos
+
+A aplicação deve contemplar:
+Cadastro de Cliente (POST /clientes)
+Cadastro de Contato (POST /contatos) vinculado a um cliente já existente
+Listagem de todos os clientes com seus contatos (GET /clientes)
+Listagem de contatos de um cliente específico (GET /clientes/{id}/contatos)
+Utilização de Spring Boot + Spring Data JPA
+Banco de dados PostgreSQL
+Entidades Cliente e Contato com relacionamento OneToMany / ManyToOne
+
+
+
+Requisitos de Código
+
+O código deve seguir boas práticas de desenvolvimento, incluindo:
+Separação de responsabilidades (camadas: controller, service, repository)
+Uso de DTOs para entrada e saída de dados
+Tratamento adequado de erros 
+Usar Lombok
+
+
+Diferencias (Não obrigatórios)
+Uso de docker pra subir o PostgreSQL
+Teste automatizados 
+Documentação com Swagger	
+
+
