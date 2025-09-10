@@ -1,5 +1,6 @@
 package tech.czo.challengenubank.API.Nubank.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
 import tech.czo.challengenubank.API.Nubank.model.Cliente;
@@ -7,6 +8,7 @@ import tech.czo.challengenubank.API.Nubank.model.Contato;
 
 import java.util.UUID;
 
+@Schema(name = "Contatos")
 public record ContatoDTO (
         @NotBlank(message = "Campo Obrigatório")
         String email,
