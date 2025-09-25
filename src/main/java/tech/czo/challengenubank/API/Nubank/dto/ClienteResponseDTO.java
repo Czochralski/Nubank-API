@@ -14,5 +14,4 @@ public record ClienteResponseDTO(
         String nome,
         List<Contato> contatos
 ) {
-
 }

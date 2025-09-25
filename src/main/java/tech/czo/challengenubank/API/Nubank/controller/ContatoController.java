@@ -6,11 +6,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.czo.challengenubank.API.Nubank.dto.ContatoDTO;
-import tech.czo.challengenubank.API.Nubank.model.Contato;
+import tech.czo.challengenubank.API.Nubank.dto.ContatoRequestDTO;
+import tech.czo.challengenubank.API.Nubank.dto.ContatoResponseDTO;
 import tech.czo.challengenubank.API.Nubank.service.ContatoService;
 
 @RestController
@@ -26,8 +25,6 @@ public class ContatoController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Cadastrado com sucesso")
     })
-    public ResponseEntity<Contato> salvarContato(@RequestBody @Valid ContatoDTO dto){
-         Contato contato = contatoService.salvarContato(dto);
-         return ResponseEntity.status(HttpStatus.CREATED).body(contato);
-    }
+    public ResponseEntity<ContatoResponseDTO> salvarContato(@RequestBody @Valid ContatoRequestDTO dto){
+        return ResponseEntity.ok().body(contatoService.salvarContato(dto));}
 }

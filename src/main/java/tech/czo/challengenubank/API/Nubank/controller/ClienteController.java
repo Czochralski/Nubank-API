@@ -6,21 +6,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.czo.challengenubank.API.Nubank.dto.ClienteDTO;
+import tech.czo.challengenubank.API.Nubank.dto.ClienteRequestDTO;
 import tech.czo.challengenubank.API.Nubank.dto.ClienteResponseDTO;
-import tech.czo.challengenubank.API.Nubank.model.Cliente;
 import tech.czo.challengenubank.API.Nubank.service.ClienteService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("clientes")
+@RequestMapping("/clientes")
 @RequiredArgsConstructor
 @Tag(name = "Clientes")
 public class ClienteController{
@@ -33,9 +29,8 @@ public class ClienteController{
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Cadastrado com sucesso")
     })
-    public ResponseEntity<Cliente> salvarCliente(@RequestBody @Valid ClienteDTO dto){
-        Cliente cliente = clienteService.salvarCliente(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
+    public ResponseEntity<ClienteResponseDTO> salvarCliente(@RequestBody @Valid ClienteRequestDTO dto){
+        return ResponseEntity.ok().body(clienteService.salvarCliente(dto));
     }
 
     @GetMapping
@@ -65,12 +60,7 @@ public class ClienteController{
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
     })
     public ResponseEntity<Void>deletarCliente(@PathVariable UUID id){
-        Optional<Cliente> clienteOptional = clienteService.buscarPorId(id);
-        if(clienteOptional.isPresent()){
-            clienteService.deletarCliente(clienteOptional.get());
-            return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        clienteService.deletarCliente(id);
+        return ResponseEntity.noContent().build();
     }
 }

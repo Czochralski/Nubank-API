@@ -1,9 +1,11 @@
 package tech.czo.challengenubank.API.Nubank.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tech.czo.challengenubank.API.Nubank.controller.mapper.ClienteMapper;
-import tech.czo.challengenubank.API.Nubank.dto.ClienteDTO;
+import tech.czo.challengenubank.API.Nubank.dto.ClienteRequestDTO;
 import tech.czo.challengenubank.API.Nubank.dto.ClienteResponseDTO;
 import tech.czo.challengenubank.API.Nubank.exceptions.ContatoEmptyException;
 import tech.czo.challengenubank.API.Nubank.model.Cliente;
@@ -22,7 +24,7 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     private final ClienteMapper clienteMapper;
 
-    public Cliente salvarCliente(ClienteDTO dto){
+    public ClienteResponseDTO salvarCliente(ClienteRequestDTO dto){
         Cliente cliente = clienteMapper.toEntity(dto);
         cliente.setNome(dto.nome());
         if(cliente.getContatos() != null &&  cliente.getContatos().size() > 0){
@@ -38,7 +40,8 @@ public class ClienteService {
             }).collect(Collectors.toList());
             cliente.setContatos(contatos);
         }
-        return clienteRepository.save(cliente);
+         clienteRepository.save(cliente);
+        return clienteMapper.toDto(cliente);
     }
 
     public List<ClienteResponseDTO> listarTodos(){
@@ -46,17 +49,22 @@ public class ClienteService {
     }
 
     public List<ClienteResponseDTO> ListarContatoId(UUID id){
-        Optional<Cliente> lista = buscarPorId(id);
+        Optional<Cliente> lista = clienteRepository.findById(id);
         List<ClienteResponseDTO> listaDto = lista.stream().map(clienteMapper::toDto
         ).collect(Collectors.toList());
         return listaDto;
     }
 
-    public Optional<Cliente> buscarPorId(UUID id){
-        return clienteRepository.findById(id);
+    public ClienteResponseDTO buscarPorId(UUID id){
+        Cliente cliente =clienteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return clienteMapper.toDto(cliente);
     }
 
-    public void deletarCliente(Cliente cliente){
-        clienteRepository.delete(cliente);
+    public void deletarCliente(UUID id){
+        Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+        if(clienteOptional.isPresent()){
+            clienteRepository.deleteById(id);
+        }
+
     }
 }
