@@ -14,7 +14,7 @@ import tech.czo.challengenubank.API.Nubank.service.ContatoService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("contatos")
+@RequestMapping("/contatos")
 @Tag(name = "Contatos")
 public class ContatoController {
     

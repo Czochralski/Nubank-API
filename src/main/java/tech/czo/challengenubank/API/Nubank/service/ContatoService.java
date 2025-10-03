@@ -22,15 +22,13 @@ public class ContatoService {
     private final ContatoMapper contatoMapper;
 
     public ContatoResponseDTO salvarContato(ContatoRequestDTO dto){
-        Cliente cliente = clienteRepository.findById(dto.idCliente()).orElseThrow(EntityNotFoundException::new);
-        if(cliente.getNome().isEmpty()){
-            throw new ClienteNotFoundException();
-        }
+        Cliente cliente = clienteRepository.findById(dto.idCliente()).orElseThrow(ClienteNotFoundException::new);
         Contato contato = contatoMapper.toEntity(dto);
         contato.setEmail(dto.email());
         contato.setTelefone(dto.telefone());
         contato.setCliente(cliente);
-        return toResponse(contatoRepository.save(contato));
+       // return contatoMapper.toDto(contato);
+            return toResponse(contatoRepository.save(contato));
     }
 
     public ContatoResponseDTO toResponse(Contato contato){

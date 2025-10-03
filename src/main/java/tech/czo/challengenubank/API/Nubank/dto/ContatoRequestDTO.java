@@ -2,7 +2,6 @@ package tech.czo.challengenubank.API.Nubank.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import tech.czo.challengenubank.API.Nubank.model.Cliente;
 
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ public record ContatoRequestDTO (
         String email,
         @NotBlank(message = "Campo Obrigatório")
         String telefone,
-        @NotBlank(message = "Campo Obrigatório")
+       // @NotBlank(message = "Campo Obrigatório")
         UUID idCliente
 
 ){

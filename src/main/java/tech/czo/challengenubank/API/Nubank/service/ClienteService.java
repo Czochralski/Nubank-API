@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import tech.czo.challengenubank.API.Nubank.controller.mapper.ClienteMapper;
 import tech.czo.challengenubank.API.Nubank.dto.ClienteRequestDTO;
 import tech.czo.challengenubank.API.Nubank.dto.ClienteResponseDTO;
+import tech.czo.challengenubank.API.Nubank.exceptions.ClienteNotFoundException;
 import tech.czo.challengenubank.API.Nubank.exceptions.ContatoEmptyException;
 import tech.czo.challengenubank.API.Nubank.model.Cliente;
 import tech.czo.challengenubank.API.Nubank.model.Contato;
@@ -50,21 +51,25 @@ public class ClienteService {
 
     public List<ClienteResponseDTO> ListarContatoId(UUID id){
         Optional<Cliente> lista = clienteRepository.findById(id);
+        if(lista.isEmpty()){
+            throw new ClienteNotFoundException();
+        }
         List<ClienteResponseDTO> listaDto = lista.stream().map(clienteMapper::toDto
         ).collect(Collectors.toList());
         return listaDto;
     }
 
-    public ClienteResponseDTO buscarPorId(UUID id){
-        Cliente cliente =clienteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+/*    public ClienteResponseDTO buscarPorId(UUID id){
+        Cliente cliente =clienteRepository.findById(id).orElseThrow(ClienteNotFoundException::new);
         return clienteMapper.toDto(cliente);
-    }
+    }*/
 
     public void deletarCliente(UUID id){
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
-        if(clienteOptional.isPresent()){
-            clienteRepository.deleteById(id);
+        if(clienteOptional.isEmpty()){
+            throw new ClienteNotFoundException();
         }
+        clienteRepository.deleteById(id);
 
     }
 }
